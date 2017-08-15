@@ -1,5 +1,3 @@
-import $ from 'jquery'
-import d3 from 'd3'
 import { isString } from '@/utils/lang/typeCheck'
 
 export default function unwrap(el) {

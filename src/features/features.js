@@ -53,7 +53,7 @@ export const proto = {
   }
 }
 
-// 混合所有feature提供的原型链上的放啊
+// 混合所有feature提供的原型链上的方法
 features
   .forEach(function mergeProto(feature) {
     Object.assign(proto, feature.proto)
