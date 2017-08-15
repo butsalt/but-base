@@ -8,7 +8,7 @@
     "build": "node ./build/build.js"
   },
   "keywords": [
-    "BaseComponent", "BaseWidget"
+    "BaseComponent", "BaseWidget", "Base"
   ],
   "author": "butSalt",
   "license": "MIT",
