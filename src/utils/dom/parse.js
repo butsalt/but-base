@@ -1,9 +1,9 @@
 const parser = new DOMParser()
 
-let svgTags = 'animate|circle|clippath|cursor|defs|desc|ellipse|filter|font-face|' +
+const svgTags = 'animate|circle|clippath|cursor|defs|desc|ellipse|filter|font-face|' +
   'foreignObject|g|glyph|image|line|marker|mask|missing-glyph|path|pattern|' +
   'polygon|polyline|rect|switch|symbol|text|textpath|tspan|use|view'
-let svgTagReg = new RegExp('^<(' + svgTags + ')(\\s|>)')
+const svgTagReg = new RegExp('^<(' + svgTags + ')(\\s|>)')
 function isSvgTag(str) {
   return svgTagReg.test(str)
 }
