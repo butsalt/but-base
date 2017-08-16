@@ -26,18 +26,18 @@ describe('listenable', () => {
   })
 
   it('order', () => {
-    component.on('test', function (order) {
-      expect(order.num).toBe(1)
-      order.num++
+    let order = 1
+    component.on('test', function () {
+      expect(order).toBe(1)
+      order++
     })
 
-    component.on('test', function (order) {
-      expect(order.num).toBe(2)
+    component.on('test', function () {
+      expect(order).toBe(2)
+      order++
     })
 
-    component.fire('test', [{
-      num: 1
-    }])
+    component.fire('test')
   })
 
   it('once', () => {
