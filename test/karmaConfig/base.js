@@ -1,16 +1,12 @@
-process.env.NODE_ENV = 'test'
-
-const webpack = require('webpack')
-
 module.exports = {
   frameworks: ['jasmine'],
   files: [
-    './index.js'
+    '../index.js'
   ],
   preprocessors: {
-    './index.js': ['webpack', 'sourcemap']
+    '../index.js': ['webpack', 'sourcemap']
   },
-  webpack: require('../build/webpackConfig/test'),
+  webpack: require('../../build/webpackConfig/test'),
   webpackMiddleware: {
     noInfo: true
   },

@@ -1,4 +1,3 @@
-import getFinder from './getFinder'
 import unwrap from './unwrap'
 import noop from '@/utils/func/noop'
 import parse from '@/utils/dom/parse'

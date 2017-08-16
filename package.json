@@ -4,8 +4,9 @@
   "description": "不过是基类",
   "main": "src/ButBase",
   "scripts": {
-    "start": "node ./build/devServer.js",
-    "test": "karma start test/karma.config.js"
+    "start": "karma start test/karmaConfig/dev.js",
+    "test": "karma start test/karmaConfig/test.js",
+    "build": "node ./build/build.js"
   },
   "keywords": [
     "BaseComponent",
@@ -23,6 +24,7 @@
     "chalk": "^2.0.1",
     "jasmine-core": "^2.7.0",
     "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.4",
