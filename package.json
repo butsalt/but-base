@@ -1,8 +1,12 @@
 {
   "name": "but-base",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "不过是基类",
   "main": "src/ButBase",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/butsalt/but-base.git"
+  },
   "scripts": {
     "start": "karma start test/karmaConfig/dev.js",
     "test": "karma start test/karmaConfig/test.js",
@@ -15,6 +19,9 @@
   ],
   "author": "butSalt",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/butsalt/but-base/issues"
+  },
   "devDependencies": {
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
