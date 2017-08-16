@@ -2,7 +2,7 @@
 
 ## 使用方式
 
-```
+```javascript
 import ButBase from 'but-base'
 
 class SpecComponent extends ButBase {
@@ -25,7 +25,7 @@ component.data('key') === 'sth'
 ```
 
 #### 移除数据
-```
+```javascript
 const removedData = component.removeData('key')
 
 removedData === 'sth'
@@ -38,7 +38,7 @@ component.data('key') === undefined
 
 #### 监听
 
-```
+```javascript
 component.on('key', function (arg1, arg2) {
   this === component
   arg1 === 'foo'
@@ -51,7 +51,7 @@ component.fire('key', ['foo', 'bar'])
 
 ### 改变监听函数的上下文
 
-```
+```javascript
 const person = {
   name: 'butSalt'
 }
@@ -65,7 +65,7 @@ component.fire('key')
 
 ### 监听一次
 
-```
+```javascript
 component.once('key', function () {
   // 这个函数只会被调用一次
 })
@@ -76,7 +76,7 @@ component.fire('key')
 
 ### 移除监听
 
-```
+```javascript
 // 移除指定namespace下的所有监听函数
 component.un('key')
 
@@ -88,7 +88,7 @@ component.un('key', handler)
 
 #### 模板实例化
 
-```
+```javascript
 class Component extends ButBase {
   getTemplate() {
     return '<div></div>'
@@ -103,7 +103,7 @@ component.getEl()
 
 #### 挂载
 
-```
+```javascript
 new Component({
   // 根据selector查找容器，组件的dom会挂载到容器下
   el: '#target'
@@ -121,7 +121,7 @@ component.mountTo('#target')
 
 #### 卸载
 
-```
+```javascript
 // 通过调用此方法卸载组件的dom
 component.unmount()
 ```
@@ -130,7 +130,7 @@ component.unmount()
 
 #### 一般使用方式
 
-```
+```javascript
 class Component extends ButBase {
   updateFoo() {
     const { foo } = this.config()
@@ -151,7 +151,7 @@ component.config({
 
 #### 控制更新方法的执行先后顺序
 
-```
+```javascript
 class Component extends ButBase {
   // 第一个被调用
   updateFirst() {
@@ -187,7 +187,7 @@ component.config({
 
 #### 更新方法内调用其他方法
 
-```
+```javascript
 class Component extends ButBase {
   updateFoo(taskWaiter) {
     taskWaiter.needExec('final')
@@ -215,7 +215,7 @@ component.config({
 
 #### 组件默认配置
 
-```
+```javascript
 class Component extends ButBase {
   updateFoo() {
 
@@ -244,7 +244,7 @@ const component = new Component({
 
 #### 配置合并逻辑
 
-```
+```javascript
 component.config({
   arr: [1, 2, 3],
   obj: {
@@ -291,7 +291,7 @@ component.config({
 
 ## 生命周期
 
-```
+```javascript
 class Component extends ButBase {
   // 触发于features尚未加载，配置尚未初始化之前
   beforeInit() {
