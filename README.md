@@ -192,7 +192,7 @@ class Component extends ButBase {
   updateFoo(taskWaiter) {
     taskWaiter.needExec('final')
   }
-  updateBar() {
+  updateBar(taskWaiter) {
     taskWaiter.needExec('final')
   }
   // 该方法在updateFoo，updateBar执行后被调用，且只执行一次
@@ -235,7 +235,7 @@ const component = new Component({
 })
 
 // 实例化组件时传递的配置会和默认配置进行合并，生成实例的初始化配置
-// 本例中，组件实例化后，会自动使用以下配置调用对应的update方法
+// 接着，组件会使用以下配置首次调用对应的update方法
 {
   foo: true,
   bar: true
@@ -269,11 +269,13 @@ component.config({
   dataA: {
     bar: true
   },
+  // 属性名中含有'data'的直接覆盖
   bData: {
     bar: true
   }
 })
 
+// 合并后的配置
 {
   arr: [4, 5, 6],
   obj: {
