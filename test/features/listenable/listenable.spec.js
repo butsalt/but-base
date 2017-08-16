@@ -19,6 +19,29 @@ describe('listenable', () => {
     base.fire('test', [num])
   })
 
+  it('proxy', () => {
+    const obj = {}
+    base.on('test', function () {
+      expect(this).toBe(obj)
+    }, obj)
+    base.fire('test')
+  })
+
+  it('order', () => {
+    base.on('test', function (order) {
+      expect(order.num).toBe(1)
+      order.num++
+    })
+
+    base.on('test', function (order) {
+      expect(order.num).toBe(2)
+    })
+
+    base.fire('test', [{
+      num: 1
+    }])
+  })
+
   it('once', () => {
 
     base.once('test', spy)
@@ -54,5 +77,19 @@ describe('listenable', () => {
 
     expect(spy.calls.count()).toBe(1)
     expect(alwaysSpy.calls.count()).toBe(2)
+  })
+
+  it('garbage collect', () => {
+    const data = base.getFeatureData('listenable')
+
+    function handler() {}
+    base.on('test', handler)
+
+    expect(data.handlersMap.test.length).toBe(1)
+    expect(data.scopesMap.test.length).toBe(1)
+
+    base.un('test', handler)
+    expect(data.handlersMap.test).toBeUndefined()
+    expect(data.scopesMap.test).toBeUndefined()
   })
 })
