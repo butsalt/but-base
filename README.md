@@ -5,17 +5,17 @@
 ```javascript
 import ButBase from 'but-base'
 
-class SpecComponent extends ButBase {
+class Component extends ButBase {
   
 }
 
-const component = new SpecComponent()
+const component = new Component()
 
 ```
 
 ## 功能
 
-### 数据暂存
+### 数据存储
 
 #### 添加数据
 ```javascript
@@ -181,7 +181,7 @@ const component = new Component()
 component.config({
   third: true,
   second: true,
-  first: true,
+  first: true
 })
 ```
 
@@ -223,6 +223,7 @@ class Component extends ButBase {
   updateBar() {
 
   }
+  // 默认配置
   getDefaultConfig() {
     return {
       foo: true
@@ -235,7 +236,7 @@ const component = new Component({
 })
 
 // 实例化组件时传递的配置会和默认配置进行合并，生成实例的初始化配置
-// 接着，组件会使用以下配置首次调用对应的update方法
+// 接着，组件会使用这份配置首次调用对应的update方法
 {
   foo: true,
   bar: true
@@ -295,30 +296,36 @@ component.config({
 
 ```javascript
 class Component extends ButBase {
-  // 触发于features尚未加载，配置尚未初始化之前
+  // 触发于：
+  //   features加载之前
+  //   触发于配置初始化之前
   beforeInit() {
     super.beforeInit()
 
     // do sth
   }
-  // 触发于features加载完毕，配置初始化完毕之后
-  // 触发于使用component.config方法更新组件的配置之前
-  // 触发于使用component.mountTo挂载组件之前
+  // 触发于：
+  //   features加载之后
+  //   配置初始化完毕之后
+  //   使用component.config方法调用各个update方法之前
+  //   使用component.mountTo挂载组件的dom之前
   inited() {
     super.inited()
 
     // do sth
   }
-  // 触发于features尚未销毁，配置尚未销毁之前
+  // 触发于：
+  //   features销毁之前
+  //   配置销毁之前
   beforeDestroy() {
-
     // do sth
 
     super.beforeDestroy()
   }
+  // 触发于：
+  //   features销毁完之后
+  //   配置销毁完成之后
   destroyed() {
-    // 触发于features销毁完成，配置销毁完成之后
-
     // do sth
 
     super.destroyed()
