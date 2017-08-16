@@ -49,7 +49,7 @@ component.fire('key', ['foo', 'bar'])
 
 ```
 
-### 改变监听函数的上下文
+#### 改变监听函数的上下文
 
 ```javascript
 const person = {
@@ -63,7 +63,7 @@ component.on('key', function (arg1, arg2) {
 component.fire('key')
 ```
 
-### 监听一次
+#### 监听一次
 
 ```javascript
 component.once('key', function () {
@@ -74,7 +74,7 @@ component.fire('key')
 component.fire('key')
 ```
 
-### 移除监听
+#### 移除监听
 
 ```javascript
 // 移除指定namespace下的所有监听函数
@@ -303,13 +303,13 @@ class Component extends ButBase {
   }
   // 触发于features加载完毕，配置初始化完毕之后
   // 触发于使用component.config方法更新组件的配置之前
-  // 触发于使用component.mounTo挂载组件之前
+  // 触发于使用component.mountTo挂载组件之前
   inited() {
     super.inited()
 
     // do sth
   }
-  // 触发于features，配置尚未销毁之前
+  // 触发于features尚未销毁，配置尚未销毁之前
   beforeDestroy() {
 
     // do sth
@@ -317,7 +317,7 @@ class Component extends ButBase {
     super.beforeDestroy()
   }
   destroyed() {
-    // 触发于features，配置销毁之后
+    // 触发于features销毁完成，配置销毁完成之后
 
     // do sth
 
