@@ -2,7 +2,7 @@ const base = require('./base')
 
 module.exports = function (config) {
   config.set(
-     Object.assign(base, {
+    Object.assign(base, {
       browsers: ['Chrome'],
       reporters: ['progress'],
       singleRun: true,
