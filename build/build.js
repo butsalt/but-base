@@ -7,7 +7,33 @@ const webpack = require('webpack')
 
 const utils = require('./utils')
 
-const webpackConfig = require('./webpackConfig/prod')
+const webpackConfigs = [
+  // 未压缩版
+  require('./webpackConfig/npm'),
+  // 压缩版
+  require('./webpackConfig/prod')
+]
+
+function compile(webpackConfigs) {
+  const tasks = webpackConfigs
+    .map(webpackConfig => {
+      return new Promise(
+        (resolve, reject) => {
+          webpack(
+            webpackConfig,
+            err => {
+              if (err) {
+                reject(err)
+              } else {
+                resolve()
+              }
+            }
+          )
+        }
+      )
+    })
+  return Promise.all(tasks)
+}
 
 const spinner = ora('项目构建中...')
 spinner.start()
@@ -19,24 +45,12 @@ rm(
     if (err) {
       throw err
     }
-    webpack(
-      webpackConfig,
-      (err, stats) => {
-        spinner.stop()
-        if (err) {
-          throw err
+    compile(webpackConfigs)
+      .then(
+        () => {
+          spinner.stop()
+          console.log(chalk.cyan('  构建完成。\n'))
         }
-        // 输出构建结果
-        process.stdout.write(stats.toString({
-          colors: true,
-          modules: false,
-          children: false,
-          chunks: false,
-          chunkModules: false
-        }) + '\n\n')
-
-        console.log(chalk.cyan('  构建完成。\n'))
-      }
-    )
+      )
   }
 )

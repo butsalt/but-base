@@ -2,7 +2,7 @@
   "name": "but-base",
   "version": "1.0.1",
   "description": "不过是基类",
-  "main": "src/ButBase",
+  "main": "dist/ButBase.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/butsalt/but-base.git"
