@@ -18,7 +18,7 @@ const component = new SpecComponent()
 ### 数据暂存
 
 #### 添加数据
-```
+```javascript
 component.data('key', 'sth')
 
 component.data('key') === 'sth'
