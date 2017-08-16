@@ -12,6 +12,8 @@ module.exports = merge(
     devtool: '#source-map',
     output: {
       filename: '[name].min.js',
+      library: 'ButBase',
+      libraryTarget: 'umd'
     },
     plugins: [
       new webpack.optimize.UglifyJsPlugin({
