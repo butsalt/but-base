@@ -2,10 +2,8 @@ import ButBase from 'but-base'
 
 describe('listenable', () => {
   let base
-  let spy
   beforeEach(() => {
     base = new ButBase()
-    spy = jasmine.createSpy('fire')
   })
 
   it('on', () => {
@@ -43,6 +41,7 @@ describe('listenable', () => {
   })
 
   it('once', () => {
+    const spy = jasmine.createSpy('fire')
 
     base.once('test', spy)
 
@@ -53,7 +52,9 @@ describe('listenable', () => {
   })
 
   it('un', () => {
+    const spy = jasmine.createSpy('fire')
     const anotherSpy = jasmine.createSpy('fire')
+
     base.on('test', spy)
     base.on('test', anotherSpy)
 
@@ -66,6 +67,7 @@ describe('listenable', () => {
   })
 
   it('un spec', () => {
+    const spy = jasmine.createSpy('fire')
     const alwaysSpy = jasmine.createSpy('fire')
 
     base.on('test', spy)
