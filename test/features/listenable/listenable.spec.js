@@ -1,41 +1,41 @@
 import ButBase from 'but-base'
 
 describe('listenable', () => {
-  let base
+  let component
   beforeEach(() => {
-    base = new ButBase()
+    component = new ButBase()
   })
 
   it('on', () => {
     const num = 1
 
-    base.on('test', function (val) {
+    component.on('test', function (val) {
       expect(val).toBe(num)
-      expect(this).toBe(base)
+      expect(this).toBe(component)
     })
 
-    base.fire('test', [num])
+    component.fire('test', [num])
   })
 
   it('proxy', () => {
     const obj = {}
-    base.on('test', function () {
+    component.on('test', function () {
       expect(this).toBe(obj)
     }, obj)
-    base.fire('test')
+    component.fire('test')
   })
 
   it('order', () => {
-    base.on('test', function (order) {
+    component.on('test', function (order) {
       expect(order.num).toBe(1)
       order.num++
     })
 
-    base.on('test', function (order) {
+    component.on('test', function (order) {
       expect(order.num).toBe(2)
     })
 
-    base.fire('test', [{
+    component.fire('test', [{
       num: 1
     }])
   })
@@ -43,10 +43,10 @@ describe('listenable', () => {
   it('once', () => {
     const spy = jasmine.createSpy('fire')
 
-    base.once('test', spy)
+    component.once('test', spy)
 
-    base.fire('test')
-    base.fire('test')
+    component.fire('test')
+    component.fire('test')
 
     expect(spy.calls.count()).toBe(1)
   })
@@ -55,12 +55,12 @@ describe('listenable', () => {
     const spy = jasmine.createSpy('fire')
     const anotherSpy = jasmine.createSpy('fire')
 
-    base.on('test', spy)
-    base.on('test', anotherSpy)
+    component.on('test', spy)
+    component.on('test', anotherSpy)
 
-    base.fire('test')
-    base.un('test')
-    base.fire('test')
+    component.fire('test')
+    component.un('test')
+    component.fire('test')
 
     expect(spy.calls.count()).toBe(1)
     expect(anotherSpy.calls.count()).toBe(1)
@@ -70,27 +70,27 @@ describe('listenable', () => {
     const spy = jasmine.createSpy('fire')
     const alwaysSpy = jasmine.createSpy('fire')
 
-    base.on('test', spy)
-    base.on('test', alwaysSpy)
+    component.on('test', spy)
+    component.on('test', alwaysSpy)
 
-    base.fire('test')
-    base.un('test', spy)
-    base.fire('test')
+    component.fire('test')
+    component.un('test', spy)
+    component.fire('test')
 
     expect(spy.calls.count()).toBe(1)
     expect(alwaysSpy.calls.count()).toBe(2)
   })
 
   it('garbage collect', () => {
-    const data = base.getFeatureData('listenable')
+    const data = component.getFeatureData('listenable')
 
     function handler() {}
-    base.on('test', handler)
+    component.on('test', handler)
 
     expect(data.handlersMap.test.length).toBe(1)
     expect(data.scopesMap.test.length).toBe(1)
 
-    base.un('test', handler)
+    component.un('test', handler)
     expect(data.handlersMap.test).toBeUndefined()
     expect(data.scopesMap.test).toBeUndefined()
   })
