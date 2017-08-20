@@ -2,6 +2,10 @@
 
 ## 使用方式
 
+```
+npm install --save but-base
+```
+
 ```javascript
 import ButBase from 'but-base'
 
