@@ -1,6 +1,6 @@
 import ButBase from 'but-base'
 
-export default class DomComponent extends ButBase {
+export default class Component extends ButBase {
   getDefaultConfig() {
     return {
       data: {},
