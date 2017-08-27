@@ -1,4 +1,5 @@
 import ButBase from 'but-base'
+import Component from './Component'
 
 describe('configurable', () => {
   let component
@@ -6,7 +7,7 @@ describe('configurable', () => {
     component = new ButBase()
   })
 
-  it('update', () => {
+  it('call corresponding update handler', () => {
     const spy = jasmine.createSpy('updateData')
 
     component.updateData = spy
@@ -48,6 +49,37 @@ describe('configurable', () => {
     expect(config.normal.second).toBe(2)
 
     expect(config.arr).toBe(arr)
+  })
+
+  it('default config', () => {
+    component = new Component()
+    expect(component.config())
+      .toEqual({
+        data: {},
+        normal: {
+          first: 1
+        },
+        arr: []
+      })
+  })
+
+  it('default config merge', () => {
+    const initConfig = {
+      data: {},
+      normal: {
+        second: 2
+      },
+      arr: []
+    }
+    component = new Component(initConfig)
+    const config = component.config()
+
+    expect(config.data).toBe(initConfig.data)
+
+    expect(config.normal.first).toBe(1)
+    expect(config.normal.second).toBe(2)
+
+    expect(config.arr).toBe(initConfig.arr)
   })
 
   it('order', () => {
