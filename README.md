@@ -304,9 +304,6 @@ class Component extends ButBase {
   //   features加载之前
   //   触发于配置初始化之前
   beforeInit() {
-    // 父类的先调用
-    super.beforeInit()
-
     // do sth
   }
   // 触发于：
@@ -315,9 +312,6 @@ class Component extends ButBase {
   //   使用component.config方法调用各个update方法之前
   //   使用component.mountTo挂载组件的dom之前
   inited() {
-    // 父类的先调用
-    super.inited()
-
     // do sth
   }
   // 触发于：
@@ -325,18 +319,12 @@ class Component extends ButBase {
   //   配置销毁之前
   beforeDestroy() {
     // do sth
-
-    // 父类的后调用
-    super.beforeDestroy()
   }
   // 触发于：
   //   features销毁完之后
   //   配置销毁完成之后
   destroyed() {
     // do sth
-
-    // 父类的后调用
-    super.destroyed()
   }
 }
 ```
