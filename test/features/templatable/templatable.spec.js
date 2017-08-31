@@ -13,19 +13,22 @@ function getStr(obj) {
 describe('templatable', () => {
   it('getEl', () => {
     const component = new ButBase()
-    expect(component.getEl()).toBeNull()
+    expect(component.getEl())
+      .toBeNull()
   })
 
   it('getDomEl', () => {
     const component = new DomComponent()
     const el = component.getEl()
-    expect(getStr(el)).toBe('[object HTMLDivElement]')
+    expect(getStr(el))
+      .toBe('[object HTMLDivElement]')
   })
 
   it('getSvgEl', () => {
     const component = new SvgComponent()
     const el = component.getEl()
-    expect(getStr(el)).toBe('[object SVGPolygonElement]')
+    expect(getStr(el))
+      .toBe('[object SVGPolygonElement]')
   })
 
   it('mountTo', () => {
@@ -33,7 +36,8 @@ describe('templatable', () => {
     const container = createContainer()
     component.mountTo(container)
 
-    expect(container.firstElementChild).toBe(component.getEl())
+    expect(container.firstElementChild)
+      .toBe(component.getEl())
   })
 
   it('unmount', () => {
@@ -42,6 +46,7 @@ describe('templatable', () => {
     component.mountTo(container)
     component.unmount()
 
-    expect(container.firstElementChild).toBeNull()
+    expect(container.firstElementChild)
+      .toBeNull()
   })
 })

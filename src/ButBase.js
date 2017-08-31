@@ -1,10 +1,12 @@
 import * as features from './features/features'
+import merge from '@/utils/lang/merge'
 
 export default class BaseComponent {
   constructor(config={}) {
     const me = this
 
-    me.init()
+    const initConfig = me.init()
+    config = merge(initConfig, config)
 
     // 初始化完毕，主动调用api
 
@@ -28,7 +30,7 @@ export default class BaseComponent {
     // 初始化所有功能
     features.init(me)
 
-    me.inited()
+    return me.inited() || {}
   }
   beforeInit() {
 

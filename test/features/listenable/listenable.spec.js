@@ -10,8 +10,10 @@ describe('listenable', () => {
     const num = 1
 
     component.on('test', function (val) {
-      expect(val).toBe(num)
-      expect(this).toBe(component)
+      expect(val)
+        .toBe(num)
+      expect(this)
+        .toBe(component)
     })
 
     component.fire('test', [num])
@@ -20,7 +22,8 @@ describe('listenable', () => {
   it('proxy', () => {
     const obj = {}
     component.on('test', function () {
-      expect(this).toBe(obj)
+      expect(this)
+        .toBe(obj)
     }, obj)
     component.fire('test')
   })
@@ -28,13 +31,13 @@ describe('listenable', () => {
   it('order', () => {
     let order = 1
     component.on('test', function () {
-      expect(order).toBe(1)
-      order++
+      expect(order++)
+        .toBe(1)
     })
 
     component.on('test', function () {
-      expect(order).toBe(2)
-      order++
+      expect(order)
+        .toBe(2)
     })
 
     component.fire('test')
@@ -48,7 +51,8 @@ describe('listenable', () => {
     component.fire('test')
     component.fire('test')
 
-    expect(spy.calls.count()).toBe(1)
+    expect(spy.calls.count())
+      .toBe(1)
   })
 
   it('un', () => {
@@ -62,8 +66,10 @@ describe('listenable', () => {
     component.un('test')
     component.fire('test')
 
-    expect(spy.calls.count()).toBe(1)
-    expect(anotherSpy.calls.count()).toBe(1)
+    expect(spy.calls.count())
+      .toBe(1)
+    expect(anotherSpy.calls.count())
+      .toBe(1)
   })
 
   it('un spec', () => {
@@ -77,8 +83,10 @@ describe('listenable', () => {
     component.un('test', spy)
     component.fire('test')
 
-    expect(spy.calls.count()).toBe(1)
-    expect(alwaysSpy.calls.count()).toBe(2)
+    expect(spy.calls.count())
+      .toBe(1)
+    expect(alwaysSpy.calls.count())
+      .toBe(2)
   })
 
   it('garbage collect', () => {
@@ -87,11 +95,15 @@ describe('listenable', () => {
     function handler() {}
     component.on('test', handler)
 
-    expect(data.handlersMap.test.length).toBe(1)
-    expect(data.scopesMap.test.length).toBe(1)
+    expect(data.handlersMap.test.length)
+      .toBe(1)
+    expect(data.scopesMap.test.length)
+      .toBe(1)
 
     component.un('test', handler)
-    expect(data.handlersMap.test).toBeUndefined()
-    expect(data.scopesMap.test).toBeUndefined()
+    expect(data.handlersMap.test)
+      .toBeUndefined()
+    expect(data.scopesMap.test)
+      .toBeUndefined()
   })
 })
