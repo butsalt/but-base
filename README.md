@@ -157,35 +157,49 @@ component.config({
 
 ```javascript
 class Component extends ButBase {
-  // 第一个被调用
   updateFirst() {
 
   }
-  // 第二个被调用
   updateSecond() {
 
   }
-  // 第三个被调用
   updateThird() {
 
   }
   getUpdateConfigOrder() {
-    // 默认值是-Infinity
-    // 值越大对应的key调用的越晚
     return {
-      first: 1,
-      second: 2,
-      third: 3
+      first: {
+        second: {
+          third: true
+        }
+      }
     }
   }
 }
 
 const component = new Component()
 
+// 先调用updateFirst
+// 再调用updateSecond
+// 最后调用updateThird
 component.config({
   third: true,
   second: true,
   first: true
+})
+
+// 虽然只传了first属性，但跟在first之后的属性会按照顺序执行对应的update方法
+// 先调用updateFirst
+// 再调用updateSecond
+// 最后调用updateThird
+component.config({
+  first: true
+})
+
+// 先调用updateSecond
+// 再调用updateThird
+component.config({
+  second: true
 })
 ```
 
@@ -239,11 +253,43 @@ const component = new Component({
   bar: true
 })
 
-// 实例化组件时传递的配置会和默认配置进行合并，生成实例的初始化配置
-// 接着，组件会使用这份配置首次调用对应的update方法
+// 实例化组件时传递的配置 覆盖 默认配置
+// 接着，组件会使用这份合并后的配置首次调用对应的update方法
 {
   foo: true,
   bar: true
+}
+```
+
+#### 组件初始化配置
+
+```javascript
+class Component extends ButBase {
+  inited() {
+    // 在此声明周期中返回的对象会被认为是配置
+    return {
+      goo: true
+    }
+  }
+  getDefaultConfig() {
+    // 默认配置
+    return {
+      foo: true
+    }
+  }
+}
+
+const component = new Component({
+  baz: true
+})
+
+// 初始化配置 覆盖 默认配置
+// 实例化组件时传递的配置 覆盖 初始化配置
+// 接着，组件会使用这份合并后的配置首次调用对应的update方法
+{
+  foo: true,
+  bar: true,
+  baz: true
 }
 ```
 
