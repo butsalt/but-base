@@ -8,6 +8,7 @@ export default function calcDescendantMap(depMap) {
       if (!curMap) {
         curMap = map[depKey] = Object.create(null)
       }
+      // 流向，depkey -> key
       curMap[key] = true
     }
   }

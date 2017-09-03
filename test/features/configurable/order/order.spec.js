@@ -89,8 +89,6 @@ describe('configurable order', () => {
 
     const spyG = component.updateG = jasmine.createSpy('updateG')
 
-    const spyH = component.updateH = jasmine.createSpy('updateH')
-
     component.config({
       f: true
     });
@@ -101,7 +99,7 @@ describe('configurable order', () => {
           .toBe(1)
       });
 
-    [spyB, spyD, spyE, spyG, spyH]
+    [spyB, spyD, spyE, spyG]
       .forEach(spy => {
         expect(spy.calls.count())
           .toBe(0)
