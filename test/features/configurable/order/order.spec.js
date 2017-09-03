@@ -1,4 +1,3 @@
-import ButBase from 'but-base'
 import OrderComponent from './OrderComponent'
 
 function getOrder(spy) {
@@ -6,11 +5,12 @@ function getOrder(spy) {
 }
 
 describe('configurable order', () => {
+  let component
+  beforeEach(() => {
+    component = new OrderComponent()
+  })
+
   it('order', () => {
-    const component = new OrderComponent()
-
-    let order = 1
-
     const spyA = component.updateA = jasmine.createSpy('updateA')
 
     const spyB = component.updateB = jasmine.createSpy('updateB')
@@ -36,7 +36,13 @@ describe('configurable order', () => {
       f: true,
       g: true,
       h: true
-    })
+    });
+
+    [spyA, spyB, spyC, spyD, spyE, spyF, spyG, spyH]
+      .forEach(spy => {
+        expect(spy.calls.count())
+          .toBe(1)
+      })
 
     const orderA = getOrder(spyA)
 
@@ -50,20 +56,7 @@ describe('configurable order', () => {
 
     const orderF = getOrder(spyF)
 
-    const orderG = getOrder(spyG);
-
-    /*
-      {
-        c: ['d', 'f'],
-        f: ['g'],
-        a: ['b', 'c', 'f']
-      }
-    */
-    [spyA, spyB, spyC, spyD, spyE, spyF, spyG, spyH]
-      .forEach(spy => {
-        expect(spy.calls.count())
-          .toBe(1)
-      })
+    const orderG = getOrder(spyG)
 
     expect(orderC)
       .toBeGreaterThan(orderD)
@@ -77,6 +70,55 @@ describe('configurable order', () => {
       .toBeGreaterThan(orderB)
     expect(orderA)
       .toBeGreaterThan(orderC)
+    expect(orderA)
+      .toBeGreaterThan(orderF)
+  })
+
+  it('flow partly', () => {
+    const spyA = component.updateA = jasmine.createSpy('updateA')
+
+    const spyB = component.updateB = jasmine.createSpy('updateB')
+
+    const spyC = component.updateC = jasmine.createSpy('updateC')
+
+    const spyD = component.updateD = jasmine.createSpy('updateD')
+
+    const spyE = component.updateE = jasmine.createSpy('updateE')
+
+    const spyF = component.updateF = jasmine.createSpy('updateF')
+
+    const spyG = component.updateG = jasmine.createSpy('updateG')
+
+    const spyH = component.updateH = jasmine.createSpy('updateH')
+
+    component.config({
+      f: true
+    });
+
+    [spyA, spyC, spyF]
+      .forEach(spy => {
+        expect(spy.calls.count())
+          .toBe(1)
+      });
+
+    [spyB, spyD, spyE, spyG, spyH]
+      .forEach(spy => {
+        expect(spy.calls.count())
+          .toBe(0)
+      })
+
+    const orderA = getOrder(spyA)
+
+    const orderC = getOrder(spyC)
+
+    const orderF = getOrder(spyF)
+
+    expect(orderC)
+      .toBeGreaterThan(orderF)
+
+    expect(orderA)
+      .toBeGreaterThan(orderC)
+
     expect(orderA)
       .toBeGreaterThan(orderF)
   })

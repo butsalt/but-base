@@ -3,6 +3,8 @@ import merge from '@/utils/lang/merge'
 import upperCaseFirstLetter from '@/utils/str/upperCaseFirstLetter'
 import { isObject } from '@/utils/lang/typeCheck'
 import calcDeepDepMap from './calcDeepDepMap'
+import calcDescendantMap from './calcDescendantMap'
+import calcUpdateConfig from './calcUpdateConfig'
 import calcUpdateOrder from './calcUpdateOrder'
 
 const DATA_NAMESPACE = 'configurable'
@@ -19,7 +21,8 @@ export function init(instance) {
   const depMap  = instance.getUpdateConfigOrder()
 
   if (depMap) {
-    data.depMap = calcDeepDepMap(depMap)
+    const deepDepMap = data.depMap = calcDeepDepMap(depMap)
+    data.descendantMap = calcDescendantMap(deepDepMap)
   }
 }
 
@@ -55,7 +58,10 @@ export const proto = {
     let changedKeys
     const depMap = data.depMap
     if (depMap) {
-      changedKeys = calcUpdateOrder(config, depMap)
+      changedKeys = calcUpdateOrder(
+        calcUpdateConfig(config, data.descendantMap),
+        depMap
+      )
     } else {
       changedKeys = Object.keys(config)
     }
