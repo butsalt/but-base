@@ -168,11 +168,10 @@ class Component extends ButBase {
   }
   getUpdateConfigOrder() {
     return {
-      first: {
-        second: {
-          third: true
-        }
-      }
+      // 执行updateSecond前要求updateFirst先执行完毕
+      second: ['first'],
+      // 执行updateThird前要求updateSecond先执行完毕
+      third: ['second']
     }
   }
 }
