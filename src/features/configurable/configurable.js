@@ -1,7 +1,11 @@
 import TaskWaiter from './TaskWaiter'
 import merge from '@/utils/lang/merge'
 import upperCaseFirstLetter from '@/utils/str/upperCaseFirstLetter'
-import nvl from '@/utils/lang/nvl'
+import { isObject } from '@/utils/lang/typeCheck'
+import calcDeepDepMap from './calcDeepDepMap'
+import calcDescendantMap from './calcDescendantMap'
+import calcUpdateConfig from './calcUpdateConfig'
+import calcUpdateOrder from './calcUpdateOrder'
 
 const DATA_NAMESPACE = 'configurable'
 
@@ -12,6 +16,14 @@ export function init(instance) {
   data.isFirstSet = true
   // 默认的空配置
   data.config = {}
+
+  // 设置更新依赖表
+  const depMap  = instance.getUpdateConfigOrder()
+
+  if (depMap) {
+    const deepDepMap = data.depMap = calcDeepDepMap(depMap)
+    data.descendantMap = calcDescendantMap(deepDepMap)
+  }
 }
 
 export function destroy(instance) {
@@ -19,18 +31,23 @@ export function destroy(instance) {
 }
 
 function getPropertyOrder(property, order) {
-  return nvl(order[property], -Infinity)
+  let val = order[property]
+  if (val == null) {
+    val = -Infinity
+  } else {
+    val = val.index
+  }
+  return val
 }
 
 export const proto = {
   config(config) {
     const me = this
 
-    if (!config) {
-      return me.getFeatureData(DATA_NAMESPACE).config
-    }
-
     const data = me.getFeatureData(DATA_NAMESPACE)
+    if (!config) {
+      return data.config
+    }
 
     if (data.isFirstSet) {
       data.isFirstSet = false
@@ -38,24 +55,24 @@ export const proto = {
     }
     data.config = merge(data.config, config)
 
-    const changedPropertyKeys = Object.keys(config)
-    const order = me.getUpdateConfigOrder()
-    if (order) {
-      changedPropertyKeys
-        .sort((key1, key2) => {
-          const order1 = getPropertyOrder(key1, order)
-          const order2 = getPropertyOrder(key2, order)
-          return order1 - order2
-        })
+    let changedKeys
+    const depMap = data.depMap
+    if (depMap) {
+      changedKeys = calcUpdateOrder(
+        calcUpdateConfig(config, data.descendantMap),
+        depMap
+      )
+    } else {
+      changedKeys = Object.keys(config)
     }
 
     const taskWaiter = data.taskWaiter
     taskWaiter.reset()
 
-    changedPropertyKeys
+    changedKeys
       .forEach(
-        function updateProperty(changedPropertyKey) {
-          const apiName = 'update' + upperCaseFirstLetter(changedPropertyKey)
+        function updateProperty(changedKey) {
+          const apiName = 'update' + upperCaseFirstLetter(changedKey)
           if (me[apiName]) {
             // 存在对应的更新方法，等待执行
             taskWaiter.needExec(apiName)

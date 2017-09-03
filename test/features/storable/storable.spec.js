@@ -11,7 +11,8 @@ describe('storable', () => {
 
     component.data('test', obj)
 
-    expect(component.data('test')).toBe(obj)
+    expect(component.data('test'))
+      .toBe(obj)
   })
 
   it('removeData', () => {
@@ -20,7 +21,10 @@ describe('storable', () => {
     component.data('test', obj)
 
     const removedData = component.removeData('test')
-    expect(removedData).toBe(obj)
-    expect(component.data('test')).toBeUndefined()
+
+    expect(removedData)
+      .toBe(obj)
+    expect(component.data('test'))
+      .toBeUndefined()
   })
 })

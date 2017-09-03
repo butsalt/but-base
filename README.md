@@ -2,6 +2,10 @@
 
 ## 使用方式
 
+```
+npm install --save but-base
+```
+
 ```javascript
 import ButBase from 'but-base'
 
@@ -153,35 +157,48 @@ component.config({
 
 ```javascript
 class Component extends ButBase {
-  // 第一个被调用
   updateFirst() {
 
   }
-  // 第二个被调用
   updateSecond() {
 
   }
-  // 第三个被调用
   updateThird() {
 
   }
   getUpdateConfigOrder() {
-    // 默认值是-Infinity
-    // 值越大对应的key调用的越晚
     return {
-      first: 1,
-      second: 2,
-      third: 3
+      // 执行updateSecond前要求updateFirst先执行完毕
+      second: ['first'],
+      // 执行updateThird前要求updateSecond先执行完毕
+      third: ['second']
     }
   }
 }
 
 const component = new Component()
 
+// 先调用updateFirst
+// 再调用updateSecond
+// 最后调用updateThird
 component.config({
   third: true,
   second: true,
   first: true
+})
+
+// 虽然只传了first属性，但跟在first之后的属性会按照顺序执行对应的update方法
+// 先调用updateFirst
+// 再调用updateSecond
+// 最后调用updateThird
+component.config({
+  first: true
+})
+
+// 先调用updateSecond
+// 再调用updateThird
+component.config({
+  second: true
 })
 ```
 
@@ -235,11 +252,43 @@ const component = new Component({
   bar: true
 })
 
-// 实例化组件时传递的配置会和默认配置进行合并，生成实例的初始化配置
-// 接着，组件会使用这份配置首次调用对应的update方法
+// 实例化组件时传递的配置 覆盖 默认配置
+// 接着，组件会使用这份合并后的配置首次调用对应的update方法
 {
   foo: true,
   bar: true
+}
+```
+
+#### 组件初始化配置
+
+```javascript
+class Component extends ButBase {
+  inited() {
+    // 在此声明周期中返回的对象会被认为是配置
+    return {
+      goo: true
+    }
+  }
+  getDefaultConfig() {
+    // 默认配置
+    return {
+      foo: true
+    }
+  }
+}
+
+const component = new Component({
+  baz: true
+})
+
+// 初始化配置 覆盖 默认配置
+// 实例化组件时传递的配置 覆盖 初始化配置
+// 接着，组件会使用这份合并后的配置首次调用对应的update方法
+{
+  foo: true,
+  bar: true,
+  baz: true
 }
 ```
 
@@ -300,9 +349,6 @@ class Component extends ButBase {
   //   features加载之前
   //   触发于配置初始化之前
   beforeInit() {
-    // 父类的先调用
-    super.beforeInit()
-
     // do sth
   }
   // 触发于：
@@ -311,9 +357,6 @@ class Component extends ButBase {
   //   使用component.config方法调用各个update方法之前
   //   使用component.mountTo挂载组件的dom之前
   inited() {
-    // 父类的先调用
-    super.inited()
-
     // do sth
   }
   // 触发于：
@@ -321,18 +364,12 @@ class Component extends ButBase {
   //   配置销毁之前
   beforeDestroy() {
     // do sth
-
-    // 父类的后调用
-    super.beforeDestroy()
   }
   // 触发于：
   //   features销毁完之后
   //   配置销毁完成之后
   destroyed() {
     // do sth
-
-    // 父类的后调用
-    super.destroyed()
   }
 }
 ```
