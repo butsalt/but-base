@@ -6,12 +6,32 @@
 npm install --save but-base
 ```
 
+### 继承
+
 ```javascript
 import ButBase from 'but-base'
 
 class Component extends ButBase {
   
 }
+
+Component.name === 'Component'
+
+const component = new Component()
+
+```
+
+### 使用描述项生成
+
+```javascript
+import ButBase from 'but-base'
+
+const Component = ButBase.compile({
+  // 构造函数的名字，缺省为Component
+  name: 'Component'
+})
+
+Component.name === 'Component'
 
 const component = new Component()
 
