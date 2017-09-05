@@ -1786,7 +1786,9 @@ function parse(str) {
 
 function statics(ButBase) {
   ButBase.use = function use(mounter) {
-    mounter(this);
+    var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    mounter(this, config);
   };
 
   [__WEBPACK_IMPORTED_MODULE_0__compilable_compilable__["a" /* default */]].forEach(function (mounter) {

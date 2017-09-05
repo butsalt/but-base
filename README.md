@@ -421,3 +421,21 @@ class Component extends ButBase {
   }
 }
 ```
+
+## 注册插件
+
+```javascript
+const plugin = function mounter(ButBase, config) {
+  // ButBase是我们的基类
+  // config是调用ButBase.use时的第二个传参，如果调用时没有传则是一个空对象
+
+  if (config.foo === true) {
+    // do sth
+  }
+}
+
+// plugin函数会被调用
+ButBase.use(plugin, {
+  foo: true
+})
+```
