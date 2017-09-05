@@ -1,3 +1,5 @@
+const webpack = require('webpack')
+const packageInfo = require('../../package.json')
 const utils = require('../utils')
 
 module.exports = {
@@ -24,5 +26,10 @@ module.exports = {
         exclude: /node_modules/,
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      VERSION: JSON.stringify(packageInfo.version)
+    })
+  ]
 }
