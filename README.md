@@ -165,16 +165,13 @@ class Component extends ButBase {
 
 const component = new Component()
 
-component
-  .on('change', handler)
-
 // change事件会被触发
 component
   .config({
     data: {}
   })
 
-// 屏蔽了更新过程中的所有事件，change事件不会触发
+// 屏蔽了config方法调用过程中的所有事件，change事件不会触发
 component
   .config(
     {
@@ -199,9 +196,9 @@ class Component extends ButBase {
   }
   getUpdateConfigOrder() {
     return {
-      // 执行updateSecond前要求updateFirst先执行完毕
+      // 更新属性second时依赖属性first
       second: ['first'],
-      // 执行updateThird前要求updateSecond先执行完毕
+      // 更新属性second时依赖属性third
       third: ['second']
     }
   }
