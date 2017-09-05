@@ -30,27 +30,17 @@ export function destroy(instance) {
   instance.removeFeatureData(DATA_NAMESPACE)
 }
 
-function getPropertyOrder(property, order) {
-  let val = order[property]
-  if (val == null) {
-    val = -Infinity
-  } else {
-    val = val.index
-  }
-  return val
-}
-
 export const proto = {
   config(config, silent) {
     const me = this
 
-    if (silent === true) {
-      me.disable('fire')
-    }
-
     const data = me.getFeatureData(DATA_NAMESPACE)
     if (!config) {
       return data.config
+    }
+
+    if (silent === true) {
+      me.disable('fire')
     }
 
     if (data.isFirstSet) {
