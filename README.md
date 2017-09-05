@@ -427,7 +427,7 @@ class Component extends ButBase {
 ```javascript
 const plugin = function mounter(ButBase, config) {
   // ButBase是我们的基类
-  // config是调用ButBase.use时的第二个传参，如果没有传则是一个空对象
+  // config是调用ButBase.use时的第二个传参，如果调用时没有传则是一个空对象
 
   if (config.foo === true) {
     // do sth
