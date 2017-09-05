@@ -153,6 +153,37 @@ component.config({
 })
 ```
 
+#### 调用config方法时暂时关闭事件机制
+
+```javascript
+class Component extends ButBase {
+  updateData() {
+    // 当更新config中的data属性时，change事件会被触发
+    this.fire('change')
+  }
+}
+
+const component = new Component()
+
+component
+  .on('change', handler)
+
+// change事件会被触发
+component
+  .config({
+    data: {}
+  })
+
+// 屏蔽了更新过程中的所有事件，change事件不会触发
+component
+  .config(
+    {
+      data: {}
+    },
+    true
+  )
+```
+
 #### 控制更新方法的执行先后顺序
 
 ```javascript
