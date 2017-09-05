@@ -1,11 +1,24 @@
 import * as features from './features/features'
 import merge from '@/utils/lang/merge'
+import statics from './statics/statics'
 
-export default class BaseComponent {
-  constructor(config={}) {
+export default class ButBase {
+  constructor(config) {
+    this.init(config)
+  }
+  init(config) {
+    if (config == null) {
+      config = {}
+    }
     const me = this
 
-    const initConfig = me.init()
+    me.beforeInit()
+
+    // 初始化所有功能
+    features.init(me)
+
+    const initConfig = me.inited() || {}
+
     config = merge(initConfig, config)
 
     // 初始化完毕，主动调用api
@@ -21,16 +34,6 @@ export default class BaseComponent {
       // 存在挂载点就挂载
       me.mountTo(el)
     }
-  }
-  init() {
-    const me = this
-
-    me.beforeInit()
-
-    // 初始化所有功能
-    features.init(me)
-
-    return me.inited() || {}
   }
   beforeInit() {
 
@@ -56,6 +59,8 @@ export default class BaseComponent {
 }
 
 Object.assign(
-  BaseComponent.prototype,
+  ButBase.prototype,
   features.proto
 )
+
+statics(ButBase)

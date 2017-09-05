@@ -1,4 +1,5 @@
 import noop from '@/utils/func/noop'
+import * as disable from './disable'
 import * as storable from './storable'
 import * as listenable from './listenable'
 import * as configurable from './configurable/configurable'
@@ -6,7 +7,7 @@ import * as templatable from './templatable/templatable'
 
 const DATA_NAMESPACE = 'featuresData'
 
-const features = [storable, listenable, configurable, templatable]
+const features = [disable, storable, listenable, configurable, templatable]
   .map(function normalizeFeature(feature) {
     feature = { ...feature }
     if (!feature.proto) {

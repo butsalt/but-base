@@ -41,8 +41,12 @@ function getPropertyOrder(property, order) {
 }
 
 export const proto = {
-  config(config) {
+  config(config, silent) {
     const me = this
+
+    if (silent === true) {
+      me.disable('fire')
+    }
 
     const data = me.getFeatureData(DATA_NAMESPACE)
     if (!config) {
@@ -82,6 +86,10 @@ export const proto = {
 
     // 执行所有待执行方法
     taskWaiter.execTasks()
+
+    if (silent === true) {
+      me.enable('fire')
+    }
 
     return me
   },

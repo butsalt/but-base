@@ -6,12 +6,32 @@
 npm install --save but-base
 ```
 
+### 继承
+
 ```javascript
 import ButBase from 'but-base'
 
 class Component extends ButBase {
   
 }
+
+Component.name === 'Component'
+
+const component = new Component()
+
+```
+
+### 使用描述项生成
+
+```javascript
+import ButBase from 'but-base'
+
+const Component = ButBase.compile({
+  // 构造函数的名字，缺省为Component
+  name: 'Component'
+})
+
+Component.name === 'Component'
 
 const component = new Component()
 
@@ -153,6 +173,34 @@ component.config({
 })
 ```
 
+#### 调用config方法时暂时关闭事件机制
+
+```javascript
+class Component extends ButBase {
+  updateData() {
+    // 当更新config中的data属性时，change事件会被触发
+    this.fire('change')
+  }
+}
+
+const component = new Component()
+
+// change事件会被触发
+component
+  .config({
+    data: {}
+  })
+
+// 屏蔽了config方法调用过程中的所有事件，change事件不会触发
+component
+  .config(
+    {
+      data: {}
+    },
+    true
+  )
+```
+
 #### 控制更新方法的执行先后顺序
 
 ```javascript
@@ -168,9 +216,9 @@ class Component extends ButBase {
   }
   getUpdateConfigOrder() {
     return {
-      // 执行updateSecond前要求updateFirst先执行完毕
+      // 更新属性second时依赖属性first
       second: ['first'],
-      // 执行updateThird前要求updateSecond先执行完毕
+      // 更新属性second时依赖属性third
       third: ['second']
     }
   }
