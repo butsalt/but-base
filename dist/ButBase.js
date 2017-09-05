@@ -1305,27 +1305,17 @@ function destroy(instance) {
   instance.removeFeatureData(DATA_NAMESPACE);
 }
 
-function getPropertyOrder(property, order) {
-  var val = order[property];
-  if (val == null) {
-    val = -Infinity;
-  } else {
-    val = val.index;
-  }
-  return val;
-}
-
 var proto = {
   config: function config(_config, silent) {
     var me = this;
 
-    if (silent === true) {
-      me.disable('fire');
-    }
-
     var data = me.getFeatureData(DATA_NAMESPACE);
     if (!_config) {
       return data.config;
+    }
+
+    if (silent === true) {
+      me.disable('fire');
     }
 
     if (data.isFirstSet) {
@@ -1785,6 +1775,8 @@ function parse(str) {
 
 
 function statics(ButBase) {
+  ButBase.version = "1.3.2";
+
   ButBase.use = function use(mounter) {
     var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
