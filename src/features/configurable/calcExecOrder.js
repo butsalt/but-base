@@ -1,8 +1,8 @@
-export default function calcUpdateOrder(config, depMap) {
+export default function calcExecOrder(originTaskMap, depMap) {
   const tasks = []
   const taskMap = Object.create(null)
   const descendantMap = Object.create(null)
-  for (let key in config) {
+  for (let key in originTaskMap) {
     const task = {
       key,
       // 前置任务数量
@@ -15,7 +15,7 @@ export default function calcUpdateOrder(config, depMap) {
       // 存在前置任务
       for (let i = 0, ii = deps.length; i < ii; i++) {
         const depKey = deps[i]
-        if (depKey in config) {
+        if (depKey in originTaskMap) {
           // 前置任务的key存在于config中，执行task前要先执行前置任务
           task.count++
           

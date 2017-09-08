@@ -214,67 +214,35 @@ class Component extends ButBase {
   updateThird() {
 
   }
-  getUpdateConfigOrder() {
+  getExecOrder() {
     return {
-      // 更新属性second时依赖属性first
-      second: ['first'],
-      // 更新属性second时依赖属性third
-      third: ['second']
+      // 当updateFirst被调用时，updateSecond也要被调用
+      // updateFirst调用在先，updateSecond调用在后
+      updateSecond: ['updateFirst'],
+      // 当updateSecond被调用时，updateThird也要被调用
+      // updateSecond调用在先，updateThird调用在后
+      updateThird: ['updateSecond']
     }
   }
 }
 
 const component = new Component()
 
-// 先调用updateFirst
-// 再调用updateSecond
-// 最后调用updateThird
+// updateFirst -> updateSecond -> updateThird
 component.config({
   third: true,
   second: true,
   first: true
 })
 
-// 虽然只传了first属性，但跟在first之后的属性会按照顺序执行对应的update方法
-// 先调用updateFirst
-// 再调用updateSecond
-// 最后调用updateThird
+// updateFirst -> updateSecond -> updateThird
 component.config({
   first: true
 })
 
-// 先调用updateSecond
-// 再调用updateThird
+// updateSecond -> updateThird
 component.config({
   second: true
-})
-```
-
-#### 更新方法内调用其他方法
-
-```javascript
-class Component extends ButBase {
-  updateFoo(taskWaiter) {
-    taskWaiter.needExec('final')
-  }
-  updateBar(taskWaiter) {
-    taskWaiter.needExec('final')
-  }
-  // 该方法在updateFoo，updateBar执行后被调用，且只执行一次
-  final(taskWaiter) {
-    taskWaiter.needExec('extra')
-  }
-  // 该方法在final执行后被调用
-  extra() {
-
-  }
-}
-
-const component = new Component()
-
-component.config({
-  foo: true,
-  bar: true
 })
 ```
 

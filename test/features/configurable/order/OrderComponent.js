@@ -1,11 +1,11 @@
 import ButBase from 'but-base'
 
 export default class OrderComponent extends ButBase {
-  getUpdateConfigOrder() {
+  getExecOrder() {
     return {
-      c: ['d', 'f'],
-      f: ['g'],
-      a: ['b', 'c', 'f']
+      updateC: ['updateD', 'updateF'],
+      updateF: ['updateG'],
+      updateA: ['updateB', 'updateC', 'updateF']
     }
   }
 }

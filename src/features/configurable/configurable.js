@@ -1,24 +1,22 @@
-import TaskWaiter from './TaskWaiter'
 import merge from '@/utils/lang/merge'
 import upperCaseFirstLetter from '@/utils/str/upperCaseFirstLetter'
 import { isObject } from '@/utils/lang/typeCheck'
 import calcDeepDepMap from './calcDeepDepMap'
 import calcDescendantMap from './calcDescendantMap'
-import calcUpdateConfig from './calcUpdateConfig'
-import calcUpdateOrder from './calcUpdateOrder'
+import calcFullTaskMap from './calcFullTaskMap'
+import calcExecOrder from './calcExecOrder'
 
 const DATA_NAMESPACE = 'configurable'
 
 export function init(instance) {
   const data = instance.createFeatureData(DATA_NAMESPACE)
-  data.taskWaiter = new TaskWaiter(instance)
   // 第一次设置配置时需要合并默认配置
   data.isFirstSet = true
   // 默认的空配置
   data.config = {}
 
   // 设置更新依赖表
-  const depMap  = instance.getUpdateConfigOrder()
+  const depMap  = instance.getExecOrder()
 
   if (depMap) {
     const deepDepMap = data.depMap = calcDeepDepMap(depMap)
@@ -49,33 +47,29 @@ export const proto = {
     }
     data.config = merge(data.config, config)
 
-    let changedKeys
+    const taskMap = Object.create(null)
+    Object.keys(config)
+      .forEach(key => {
+        taskMap['update' + upperCaseFirstLetter(key)] = true
+      })
+    let tasks
     const depMap = data.depMap
     if (depMap) {
-      changedKeys = calcUpdateOrder(
-        calcUpdateConfig(config, data.descendantMap),
+      tasks = calcExecOrder(
+        calcFullTaskMap(taskMap, data.descendantMap),
         depMap
       )
     } else {
-      changedKeys = Object.keys(config)
+      tasks = Object.keys(taskMap)
     }
 
-    const taskWaiter = data.taskWaiter
-    taskWaiter.reset()
-
-    changedKeys
-      .forEach(
-        function updateProperty(changedKey) {
-          const apiName = 'update' + upperCaseFirstLetter(changedKey)
-          if (me[apiName]) {
-            // 存在对应的更新方法，等待执行
-            taskWaiter.needExec(apiName)
-          }
+    tasks
+      .forEach(apiName => {
+        if (me[apiName]) {
+          me[apiName]()
         }
-      )
+      })
 
-    // 执行所有待执行方法
-    taskWaiter.execTasks()
 
     if (silent === true) {
       me.enable('fire')
@@ -83,7 +77,7 @@ export const proto = {
 
     return me
   },
-  getUpdateConfigOrder() {
+  getExecOrder() {
     return null
   },
   getDefaultConfig() {
