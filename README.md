@@ -351,7 +351,7 @@ component.config({
   dataA: {
     bar: true
   },
-  dataB: {
+  bData: {
     bar: true
   }
 }
