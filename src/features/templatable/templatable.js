@@ -36,6 +36,9 @@ export const proto = {
     const me = this
 
     const el = me.getEl()
+    if (!el) {
+      return
+    }
 
     const parentEl = el.parentElement
     if (parentEl) {

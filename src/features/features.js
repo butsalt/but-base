@@ -16,7 +16,7 @@ const features = [disable, storable, listenable, configurable, templatable]
     if (!feature.init) {
       feature.init = noop
     }
-    if (!feature[destroy]) {
+    if (!feature.destroy) {
       feature.destroy = noop
     }
     return feature
