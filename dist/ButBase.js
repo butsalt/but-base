@@ -939,7 +939,7 @@ var features = [__WEBPACK_IMPORTED_MODULE_4__disable__, __WEBPACK_IMPORTED_MODUL
   if (!feature.init) {
     feature.init = __WEBPACK_IMPORTED_MODULE_3__utils_func_noop__["a" /* default */];
   }
-  if (!feature[destroy]) {
+  if (!feature.destroy) {
     feature.destroy = __WEBPACK_IMPORTED_MODULE_3__utils_func_noop__["a" /* default */];
   }
   return feature;
@@ -1623,6 +1623,9 @@ var proto = {
     var me = this;
 
     var el = me.getEl();
+    if (!el) {
+      return;
+    }
 
     var parentEl = el.parentElement;
     if (parentEl) {
@@ -1690,7 +1693,7 @@ function parse(str) {
 
 
 function statics(ButBase) {
-  ButBase.version = "1.4.0";
+  ButBase.version = "1.4.1";
 
   ButBase.use = function use(mounter) {
     var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
