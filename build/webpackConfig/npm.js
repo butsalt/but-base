@@ -8,7 +8,7 @@ module.exports = merge(
   {
     output: {
       filename: '[name].js',
-      library: 'ButBase',
+      library: '[name]',
       libraryTarget: 'umd'
     }
   }
