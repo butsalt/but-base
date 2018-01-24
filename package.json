@@ -8,7 +8,7 @@
     "url": "git+https://github.com/butsalt/but-base.git"
   },
   "scripts": {
-    "start": "karma start test/karmaConfig/dev.js",
+    "dev": "karma start test/karmaConfig/dev.js",
     "test": "karma start test/karmaConfig/test.js",
     "build": "node ./build/build.js"
   },
