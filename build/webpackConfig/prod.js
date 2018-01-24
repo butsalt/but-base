@@ -12,7 +12,7 @@ module.exports = merge(
     devtool: '#source-map',
     output: {
       filename: '[name].min.js',
-      library: 'ButBase',
+      library: '[name]',
       libraryTarget: 'umd'
     },
     plugins: [

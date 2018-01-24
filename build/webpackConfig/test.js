@@ -13,7 +13,7 @@ module.exports = merge(
     resolve: {
       alias: {
         // 使得可以在单元测试中可以require('but-base')
-        'but-base': utils.resolve('src/ButBase.js')
+        'but-base': utils.resolve('src/index.js')
       }
     },
     devtool: '#cheap-module-eval-source-map'

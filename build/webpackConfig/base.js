@@ -5,7 +5,7 @@ const utils = require('../utils')
 module.exports = {
   // 入口
   entry: {
-    ButBase: utils.resolve('src/ButBase')
+    ButBase: utils.resolve('src/index.js')
   },
   output: {
     // 用于存放编译后文件的文件夹
